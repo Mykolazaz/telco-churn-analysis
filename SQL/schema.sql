@@ -1,26 +1,3 @@
-CREATE TABLE location (
-    location_id VARCHAR(10) NOT NULL,
-    customer_id VARCHAR(10) NOT NULL,
-    count SMALLINT NOT NULL,
-    country VARCHAR(13) NOT NULL,
-    state VARCHAR(15) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    zip_code INT NOT NULL,
-    lat_long VARCHAR(25) NOT NULL,
-    latitude REAL NOT NULL,
-    longitude REAL NOT NULL,
-    PRIMARY KEY (customer_id),
-    FOREIGN KEY (customer_id) REFERENCES demographics(customer_id)
-);
-
-CREATE TABLE local_population (
-    id SMALLINT NOT NULL,
-    zip_code INT NOT NULL,
-    population INT NOT NULL,
-    PRIMARY KEY (zip_code),
-    FOREIGN KEY (zip_code) REFERENCES location(zip_code)
-);
-
 CREATE TABLE demographics (
     customer_id VARCHAR(10) NOT NULL,
     count SMALLINT NOT NULL, 
@@ -34,6 +11,36 @@ CREATE TABLE demographics (
     PRIMARY KEY (customer_id)
 );
 
+/*
+Column location_id is in original dataset but redundant
+as no customer has two or more locations assigned
+*/
+CREATE TABLE location (
+    location_id VARCHAR(10) NOT NULL,
+    customer_id VARCHAR(10) NOT NULL,
+    count SMALLINT NOT NULL,
+    country VARCHAR(13) NOT NULL,
+    state VARCHAR(15) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    zip_code VARCHAR(10) NOT NULL,
+    lat_long VARCHAR(25) NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    PRIMARY KEY (customer_id),
+    FOREIGN KEY (customer_id) REFERENCES demographics(customer_id)
+);
+
+CREATE TABLE local_population (
+    id SMALLINT NOT NULL,
+    zip_code VARCHAR(10) NOT NULL,
+    population INT NOT NULL,
+    PRIMARY KEY (zip_code),
+    FOREIGN KEY (zip_code) REFERENCES location(zip_code)
+);
+
+/*
+Column service_id is in original dataset but redundant
+*/
 CREATE TABLE services (
     service_id VARCHAR(15) NOT NULL,
     customer_id VARCHAR(10) NOT NULL,
@@ -70,6 +77,9 @@ CREATE TABLE services (
     FOREIGN KEY (customer_id) REFERENCES demographics(customer_id)
 );
 
+/*
+Column status_id is in original dataset but redundant
+*/
 CREATE TABLE status (
     status_id VARCHAR(10) NOT NULL,
     customer_id VARCHAR(10) NOT NULL,
