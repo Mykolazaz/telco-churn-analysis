@@ -11,6 +11,13 @@ CREATE TABLE demographics (
     PRIMARY KEY (customer_id)
 );
 
+CREATE TABLE local_population (
+    id SMALLINT NOT NULL,
+    zip_code VARCHAR(10) NOT NULL,
+    population INT NOT NULL,
+    PRIMARY KEY (zip_code)
+);
+
 /*
 Column location_id is in original dataset but redundant
 as no customer has two or more locations assigned
@@ -27,15 +34,8 @@ CREATE TABLE location (
     latitude REAL NOT NULL,
     longitude REAL NOT NULL,
     PRIMARY KEY (customer_id),
-    FOREIGN KEY (customer_id) REFERENCES demographics(customer_id)
-);
-
-CREATE TABLE local_population (
-    id SMALLINT NOT NULL,
-    zip_code VARCHAR(10) NOT NULL,
-    population INT NOT NULL,
-    PRIMARY KEY (zip_code),
-    FOREIGN KEY (zip_code) REFERENCES location(zip_code)
+    FOREIGN KEY (customer_id) REFERENCES demographics(customer_id),
+    FOREIGN KEY (zip_code) REFERENCES local_population(zip_code)
 );
 
 /*
